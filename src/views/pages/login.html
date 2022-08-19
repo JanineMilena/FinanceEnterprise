@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <title>Finance Enterprise - Login</title>
+
+    <link rel="stylesheet" href="../design/login.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar-box">
+        <img src="../images/menu-logo.png" alt="Logo" style="margin-left: 3em;">
+        <li><a href="#CONTATO" style="margin-right: 3em;">CONTATO</a></li>
+        <li><a href="#DÚVIDAS">DÚVIDAS</a></li>
+        <li><a href="#SOLUÇÕES">SOLUÇÕES</a></li>
+        <li><a href="#EMPRESA">EMPRESA</a></li>
+        <li><a href="#HOME">HOME</a></li>
+    </nav>
+
+    <div class="body-box">
+        <div class="login-box">
+            <img src="../images/login-logo.png" alt="login-logo"></br>
+
+            <input class="input-box" type="email" name="email" id="email" placeholder="Email"></br>
+            <input class="input-box" type="password" name="password" id="password" placeholder="Senha"></br></br>
+
+            <button class="login-button" name="submit" id="submit">Login</button>
+
+            <script>
+                $(document).keypress(function (e) {
+                    if (e.which == 13) $('#submit').click();
+                });
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
