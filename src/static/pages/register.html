@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="../css/register.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="../scripts/test_script.js"></script>
 </head>
 
 <body>
@@ -27,23 +28,19 @@
         <div class="register-box">
             <img src="../images/register-logo.png" alt="register-logo"></br>
 
-            <input class="input-box" type="text" name="name" id="name" placeholder="Nome"></br>
-            <input class="input-box" type="text" name="surname" id="surname" placeholder="Sobrenome"></br>
+            <input class="input-box" type="text" name="nome" id="nome" placeholder="Nome"></br>
+            <input class="input-box" type="text" name="sobrenome" id="sobrenome" placeholder="Sobrenome"></br>
             <input class="input-box" type="email" name="email" id="email" placeholder="Email"></br>
-            <input class="input-box" type="password" name="password" id="password" placeholder="Senha"></br></br>
+            <input class="input-box" type="password" name="senha" id="senha" placeholder="Senha"></br></br>
 
-            <button class="register-button" name="submit" id="submit" onclick="register()">Registre-se</button>
+            <button class="register-button" name="submit" id="submit"
+                onclick="register(nome, sobrenome, email, senha)">Registre-se</button>
 
             <script>
                 $(document).keypress(function (e) {
                     if (e.which == 13) $('#submit').click();
                 });
 
-                function register() {
-                    let name = document.getElementById("name").value;
-                    let surname = document.getElementById("surname").value;
-                    let email = document.getElementById("email").value;
-                }
             </script>
         </div>
     </div>
