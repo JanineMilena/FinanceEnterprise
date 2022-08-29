@@ -5,10 +5,8 @@ async function getUsuarioService(key, oper, value) {
         const conn = await db();
         const sql = key + oper + value;
         const [retorno] = await conn.query("SELECT * FROM usuario WHERE " + sql); // Isso deve ser alterado para evitar vulnerabilidades com sql injection
-        console.log(sql);
         return retorno;
     } catch (err) {
-        console.log(sql);
         return (err);
     }
 };

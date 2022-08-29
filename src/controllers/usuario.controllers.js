@@ -13,7 +13,7 @@ async function getUsuarioController(req, res) {
 async function postUsuarioController(req, res) {
     try {
         const { nome, sobrenome, email, senha } = req.body;
-        const retorno = await postUsuarioService(nome, sobrenome, email, senha); // Desestruturação
+        const retorno = await postUsuarioService(nome, sobrenome, email, senha);
         return res.json(retorno);
     } catch (err) {
         return res.json(err);

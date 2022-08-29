@@ -8,11 +8,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(router);
-app.use('/register', express.static('/static/pages/register.html'));
 
-app.use('/css', express.static('./static/css'));
-app.use('/images', express.static('./static/images'));
-app.use('/scripts', express.static('./static/scripts'));
+app.use('/register', express.static('./src/static/pages/register.html'));
+app.use('/login', express.static('./src/static/pages/login.html'));
+app.use('/system', express.static('./src/static/pages/system.html'));
+
+app.use('/css', express.static('./src/static/css'));
+app.use('/images', express.static('./src/static/images'));
+app.use('/scripts', express.static('./src/static/scripts'));
 
 app.listen(8800);
 console.log('server run');
