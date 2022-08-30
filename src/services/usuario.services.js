@@ -47,5 +47,15 @@ async function deleteUsuarioService(id) {
     }
 };
 
+async function getValidaUsuarioService(email, senha) {
+    try {
+        const conn = await db();
+        const sql = 'usuario.email = \'' + email + '\' AND usuario.senha = \'' + senha + '\'';
+        const [retorno] = await conn.query("SELECT * FROM usuario WHERE " + sql); // Isso deve ser alterado para evitar vulnerabilidades com sql injection
+        return retorno;
+    } catch (err) {
+        return (err);
+    }
+};
 
-module.exports = { getUsuarioService, postUsuarioService, putUsuarioService, deleteUsuarioService };
+module.exports = { getUsuarioService, postUsuarioService, putUsuarioService, deleteUsuarioService, getValidaUsuarioService };

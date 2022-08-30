@@ -1,4 +1,4 @@
-const { getUsuarioService, postUsuarioService, putUsuarioService, deleteUsuarioService } = require("../services/usuario.services");
+const { getUsuarioService, postUsuarioService, putUsuarioService, deleteUsuarioService, getValidaUsuarioService } = require("../services/usuario.services");
 
 async function getUsuarioController(req, res) {
     try {
@@ -41,4 +41,14 @@ async function deleteUsuarioController(req, res) {
     }
 };
 
-module.exports = { getUsuarioController, postUsuarioController, putUsuarioController, deleteUsuarioController };
+async function getValidaUsuarioController(req, res) {
+    try {
+        const { email, senha } = req.body;
+        const retorno = await getValidaUsuarioService(email, senha);
+        return res.json(retorno);
+    } catch (err) {
+        return res.json(err);
+    }
+};
+
+module.exports = { getUsuarioController, postUsuarioController, putUsuarioController, deleteUsuarioController, getValidaUsuarioController };
