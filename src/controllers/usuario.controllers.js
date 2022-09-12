@@ -1,4 +1,4 @@
-const { getUsuarioService, postUsuarioService, putUsuarioService, deleteUsuarioService, getValidaUsuarioService } = require("../services/usuario.services");
+const { getUsuarioService, insertUserService, putUsuarioService, deleteUsuarioService, getValidaUsuarioService } = require("../services/usuario.services");
 
 async function getUsuarioController(req, res) {
     try {
@@ -10,11 +10,12 @@ async function getUsuarioController(req, res) {
     }
 };
 
-async function postUsuarioController(req, res) {
+// Faz a inserção de usuários: REVISADO
+async function insertUserController(req, res) {
     try {
         const { nome, sobrenome, email, senha } = req.body;
-        const retorno = await postUsuarioService(nome, sobrenome, email, senha);
-        return res.json(retorno);
+        const response = await insertUserService(nome, sobrenome, email, senha);
+        return res.json(response);
     } catch (err) {
         return res.json(err);
     }
@@ -45,10 +46,10 @@ async function getValidaUsuarioController(req, res) {
     try {
         const { email, senha } = req.body;
         const retorno = await getValidaUsuarioService(email, senha);
-        return res.json(retorno);
+        return res(retorno);
     } catch (err) {
         return res.json(err);
     }
 };
 
-module.exports = { getUsuarioController, postUsuarioController, putUsuarioController, deleteUsuarioController, getValidaUsuarioController };
+module.exports = { getUsuarioController, insertUserController, putUsuarioController, deleteUsuarioController, getValidaUsuarioController };
