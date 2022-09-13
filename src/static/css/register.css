@@ -7,29 +7,6 @@ body {
     background-color: #EDE6FB;
 }
 
-.navbar-box {
-    list-style-type: none;
-    overflow: hidden;
-    background-color: #FF5700;
-}
-
-.navbar-box>li {
-    float: right;
-}
-
-.navbar-box>li>a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 16px 16px;
-    text-decoration: none;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.navbar-box>li>a:hover {
-    background-color: #d84901;
-}
-
 .body-box {
     display: flex;
     align-items: center;

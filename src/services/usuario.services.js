@@ -1,29 +1,21 @@
 const { db } = require("../config/db.config");
+const bcrypt = require('bcryptjs');
 
-// Lista usuários considerando um único determinado filtro por campo -- Validar melhorias para essa rota
-async function getUsuarioService(key, oper, value) {
-    try {
-        const conn = await db();
-        const [retorno] = await conn.query("SELECT * FROM usuario WHERE " + key + oper + "\'" + value + "\'"); // Isso deve ser alterado para evitar vulnerabilidades com sql injection
-        return retorno;
-    } catch (err) {
-        return (err);
-    }
-};
+// REVISAR A FUNÇÃO UTILIZADA PARA VALIDAÇÃO, CÓDIGO O MAIS LIMPO POSSÍVEL...
 
 // Faz a inserção de usuários: REVISADO
-async function insertUserService(nome, sobrenome, email, senha) {
+async function insertUsersService(name, surname, email, password) {
     try {
-        // Faz a conexão com o banco de dados:
         const conn = await db();
-        // Faz uma requisição para validar se já existe um usuário com o e-mail inserido no form:
-        const [responseValidation] = await conn.query("SELECT usuario.id FROM usuario WHERE usuario.email = ?",
-            [email]
-        );
-        // Se não houver um usuário cadastrado com esse e-mail, retorne falso e realize a inserção. Caso sim, retorne verdadeiro para existência:
+
+        const responseValidation = await getUsuarioService('email', '=', email);
+
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
+
         if (responseValidation.length == 0) {
-            const [response] = await conn.query("INSERT INTO usuario (id, ativo, nome, sobrenome, email, senha) VALUES (DEFAULT,1,?,?,?,?)",
-                [nome, sobrenome, email, senha]
+            const [response] = await conn.query("INSERT INTO users (id, active, name, surname, email, password) VALUES (DEFAULT,1,?,?,?,?)",
+                [name, surname, email, hash]
             );
             return ({
                 "type": "sucess",
@@ -36,47 +28,81 @@ async function insertUserService(nome, sobrenome, email, senha) {
             "message": "Usuário já está cadastrado!"
         });
     }
-    // Caso ocorra um erro, retorno erro:
     catch (err) {
         return (err);
     }
 };
-
-// Faz a atualização de um usuário
-async function putUsuarioService(id, ativo, nome, sobrenome, email, senha) {
+// Faz a atualização de um usuário: REVISADO
+async function updateUsersService(id, active, name, surname, email, password) {
     try {
         const conn = await db();
-        const [retorno] = await conn.query("UPDATE usuario SET ativo=?, nome=?, sobrenome=?, email=?, senha=? WHERE id=?",
-            [ativo, nome, sobrenome, email, senha, id]
+        await conn.query("UPDATE users SET active=?, name=?, surname=?, email=?, password=? WHERE id=?",
+            [active, name, surname, email, password, id]
         );
-        return retorno;
+        return ({
+            "type": "sucess",
+            "message": "Registro atualizado com sucesso!",
+        })
+    } catch (err) {
+        return (err);
+    }
+};
+// Faz a deleção de um usuário: REVISADO
+async function deleteUsersService(id) {
+    try {
+        const conn = await db();
+
+        let responseValidation = await getUsuarioService('id', '=', id);
+
+        if (responseValidation.length > 0) {
+            await conn.query("DELETE FROM users WHERE id=?",
+                [id]
+            );
+            return ({
+                "type": "sucess",
+                "message": "Registro deletado com sucesso!",
+            })
+        }
+        return ({
+            "type": "error",
+            "message": "Usuário não existe!"
+        });
     } catch (err) {
         return (err);
     }
 };
 
-// Faz a deleção de um usuário
-async function deleteUsuarioService(id) {
+
+
+
+// Lista usuários considerando um único determinado filtro por campo -- Validar melhorias para essa rota
+async function getUsuarioService(key, oper, value) {
     try {
-        const conn = await db();
-        const [retorno] = await conn.query("DELETE FROM usuario WHERE id=?",
-            [id]
-        );
+        const conn = await db()
+        const [retorno] = await conn.query("SELECT * FROM users WHERE " + key + oper + "\'" + value + "\'"); // Isso deve ser alterado para evitar vulnerabilidades com sql injection
         return retorno;
     } catch (err) {
         return (err);
     }
 };
-
 // Faz a validação de se um usuário existe ou não no sistema -- Validar melhorias para essa rota
 async function getValidaUsuarioService(email, senha) {
     try {
-        const conn = await db();
-        const [retorno] = await conn.query("SELECT * FROM usuario WHERE usuario.email = \'" + email + "\' AND usuario.senha = \'" + senha + "\'"); // Isso deve ser alterado para evitar vulnerabilidades com sql injection
-        return retorno;
+        const responseValidation = await getUsuarioService('email', '=', email);
+
+        if ((bcrypt.compareSync(senha, responseValidation[0].password)) == true) {
+            return ({
+                "type": "sucess",
+                "message": "Usuário existe no sistema!"
+            });
+        }
+        return ({
+            "type": "error",
+            "message": "Usuário não existe!"
+        });
     } catch (err) {
         return (err);
     }
 };
 
-module.exports = { getUsuarioService, insertUserService, putUsuarioService, deleteUsuarioService, getValidaUsuarioService };
+module.exports = { getUsuarioService, insertUsersService, updateUsersService, deleteUsersService, getValidaUsuarioService };

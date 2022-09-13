@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-const { getUsuarioController, insertUsuarioController, putUsuarioController, deleteUsuarioController, getValidaUsuarioController } = require("../controllers/usuario.controllers");
-
-router.post("/getUsuario", getUsuarioController);
-router.put("/usuario/:id", putUsuarioController);
-router.delete("/usuario/:id", deleteUsuarioController);
-router.post("/validaUsuario", getValidaUsuarioController);
+const { getUsuarioController, insertUsersController, updateUsersController, deleteUsersController, getValidaUsuarioController } = require("../controllers/usuario.controllers");
 
 // Faz a inserção de usuários: REVISADO
-router.post("/usuario", insertUsuarioController);
+router.post("/users", insertUsersController);
+router.put("/users/:id", updateUsersController);
+router.delete("/users/:id", deleteUsersController);
+
+router.post("/getUsuario", getUsuarioController);
+router.post("/validaUsuario", getValidaUsuarioController);
+
+// Revisando
 
 module.exports = { router };

@@ -1,13 +1,14 @@
-async function registerUser(nome, sobrenome, email, senha) {
+// Faz a inserção de usuários: REVISADO
+async function insertUsers(name, surname, email, password) {
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
 
     let body = JSON.stringify({
-        "nome": nome.value,
-        "sobrenome": sobrenome.value,
+        "name": name.value,
+        "surname": surname.value,
         "email": email.value,
-        "senha": senha.value
+        "password": password.value
     });
 
     let requestOptions = {
@@ -17,7 +18,7 @@ async function registerUser(nome, sobrenome, email, senha) {
         redirect: 'follow'
     };
 
-    let response = await fetch("/usuario", requestOptions)
+    let response = await fetch("/users", requestOptions)
         .then(response => response.json())
 
     alert(response.message);
