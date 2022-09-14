@@ -3,12 +3,22 @@ const bcrypt = require('bcryptjs');
 
 // REVISAR A FUNÇÃO UTILIZADA PARA VALIDAÇÃO, CÓDIGO O MAIS LIMPO POSSÍVEL...
 
+// Lista usuários considerando um único determinado filtro por campo: REVISADO
+async function returnUsersService(key, oper, value) {
+    try {
+        const conn = await db()
+        const [response] = await conn.query("SELECT * FROM users WHERE " + key + " " + oper + "\'" + value + "\'"); // Isso deve ser alterado para evitar vulnerabilidades com sql injection
+        return response;
+    } catch (err) {
+        return (err);
+    }
+};
 // Faz a inserção de usuários: REVISADO
 async function insertUsersService(name, surname, email, password) {
     try {
         const conn = await db();
 
-        const responseValidation = await getUsuarioService('email', '=', email);
+        const responseValidation = await returnUsersService('email', '=', email);
 
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
@@ -52,7 +62,7 @@ async function deleteUsersService(id) {
     try {
         const conn = await db();
 
-        let responseValidation = await getUsuarioService('id', '=', id);
+        let responseValidation = await returnUsersService('id', '=', id);
 
         if (responseValidation.length > 0) {
             await conn.query("DELETE FROM users WHERE id=?",
@@ -71,26 +81,12 @@ async function deleteUsersService(id) {
         return (err);
     }
 };
-
-
-
-
-// Lista usuários considerando um único determinado filtro por campo -- Validar melhorias para essa rota
-async function getUsuarioService(key, oper, value) {
+// Faz a validação de se um usuário existe ou não no sistema: REVISADO
+async function validateUsersService(email, password) {
     try {
-        const conn = await db()
-        const [retorno] = await conn.query("SELECT * FROM users WHERE " + key + oper + "\'" + value + "\'"); // Isso deve ser alterado para evitar vulnerabilidades com sql injection
-        return retorno;
-    } catch (err) {
-        return (err);
-    }
-};
-// Faz a validação de se um usuário existe ou não no sistema -- Validar melhorias para essa rota
-async function getValidaUsuarioService(email, senha) {
-    try {
-        const responseValidation = await getUsuarioService('email', '=', email);
+        const responseValidation = await returnUsersService('email', '=', email);
 
-        if ((bcrypt.compareSync(senha, responseValidation[0].password)) == true) {
+        if ((bcrypt.compareSync(password, responseValidation[0].password)) == true) {
             return ({
                 "type": "sucess",
                 "message": "Usuário existe no sistema!"
@@ -105,4 +101,4 @@ async function getValidaUsuarioService(email, senha) {
     }
 };
 
-module.exports = { getUsuarioService, insertUsersService, updateUsersService, deleteUsersService, getValidaUsuarioService };
+module.exports = { returnUsersService, insertUsersService, updateUsersService, deleteUsersService, validateUsersService };

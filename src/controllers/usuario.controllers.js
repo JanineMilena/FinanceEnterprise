@@ -1,5 +1,15 @@
-const { getUsuarioService, insertUsersService, updateUsersService, deleteUsersService, getValidaUsuarioService } = require("../services/usuario.services");
+const { returnUsersService, insertUsersService, updateUsersService, deleteUsersService, validateUsersService } = require("../services/usuario.services");
 
+// Lista usuários considerando um único determinado filtro por campo: REVISADO
+async function returnUsersController(req, res) {
+    try {
+        const { key, oper, value } = req.body;
+        const response = await returnUsersService(key, oper, value);
+        return res.json(response);
+    } catch (err) {
+        return res.json(err);
+    }
+};
 // Faz a inserção de usuários: REVISADO
 async function insertUsersController(req, res) {
     try {
@@ -31,26 +41,15 @@ async function deleteUsersController(req, res) {
         return res.json(err);
     }
 };
-
-
-
-async function getUsuarioController(req, res) {
+// Faz a validação de se um usuário existe ou não no sistema: REVISADO
+async function validateUsersController(req, res) {
     try {
-        const { key, oper, value } = req.body;
-        const retorno = await getUsuarioService(key, oper, value);
-        return res.json(retorno);
-    } catch (err) {
-        return res.json(err);
-    }
-};
-async function getValidaUsuarioController(req, res) {
-    try {
-        const { email, senha } = req.body;
-        const retorno = await getValidaUsuarioService(email, senha);
-        return res.json(retorno);
+        const { email, password } = req.body;
+        const response = await validateUsersService(email, password);
+        return res.json(response);
     } catch (err) {
         return res.json(err);
     }
 };
 
-module.exports = { getUsuarioController, insertUsersController, updateUsersController, deleteUsersController, getValidaUsuarioController };
+module.exports = { returnUsersController, insertUsersController, updateUsersController, deleteUsersController, validateUsersController };

@@ -23,15 +23,15 @@ async function insertUsers(name, surname, email, password) {
 
     alert(response.message);
 }
-
-async function validaUsuario(email, senha) {
+// Faz a validação de se um usuário existe ou não no sistema: REVISADO
+async function validateUsers(email, password) {
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
 
     let body = JSON.stringify({
         "email": email.value,
-        "senha": senha.value
+        "password": password.value
     });
 
     let requestOptions = {
@@ -41,7 +41,7 @@ async function validaUsuario(email, senha) {
         redirect: 'follow'
     };
 
-    let response = await fetch("/validaUsuario", requestOptions)
+    let response = await fetch("/validateUsers", requestOptions)
         .then(response => response.json())
 
     console.log(response);

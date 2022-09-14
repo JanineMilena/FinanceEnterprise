@@ -20,9 +20,10 @@
             <img src="../images/login-logo.png" alt="login-logo"></br>
 
             <input class="input-box" type="email" name="email" id="email" placeholder="Email"></br>
-            <input class="input-box" type="password" name="senha" id="senha" placeholder="Senha"></br></br>
+            <input class="input-box" type="password" name="password" id="password" placeholder="Senha"></br></br>
 
-            <button class="login-button" name="submit" id="submit" onclick="validaUsuario(email, senha)">Login</button>
+            <button class="login-button" name="submit" id="submit"
+                onclick="validateUsers(email, password)">Login</button>
 
             <script>
                 $(document).keypress(function (e) {
