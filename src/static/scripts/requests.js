@@ -20,6 +20,7 @@ async function insertUsers(name, surname, email, password) {
 
     let response = await fetch("/users", requestOptions)
         .then(response => response.json())
+        .then(response => console.log(response))
 
     alert(response.message);
 }
@@ -43,7 +44,6 @@ async function validateUsers(email, password) {
 
     let response = await fetch("/validateUsers", requestOptions)
         .then(response => response.json())
-
-    console.log(response);
+        .then(response => console.log(response))
 }
 

@@ -1,5 +1,6 @@
 const { db } = require("../config/db.config");
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
 
 // REVISAR A FUNÇÃO UTILIZADA PARA VALIDAÇÃO, CÓDIGO O MAIS LIMPO POSSÍVEL...
 
@@ -87,10 +88,18 @@ async function validateUsersService(email, password) {
         const responseValidation = await returnUsersService('email', '=', email);
 
         if ((bcrypt.compareSync(password, responseValidation[0].password)) == true) {
+            const userData = {
+                email: email,
+                password: password
+            };
+            const privateKey = "f1n@nc33nt3rpr1s3";
+            const response = jwt.sign(userData, privateKey);
+
             return ({
                 "type": "sucess",
-                "message": "Usuário existe no sistema!"
-            });
+                "message": "Usuário encontrado!",
+                "session-token": response
+            })
         }
         return ({
             "type": "error",
