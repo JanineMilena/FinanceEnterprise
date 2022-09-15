@@ -42,9 +42,14 @@ async function validateUsers(email, password) {
         redirect: 'follow'
     };
 
-    let response = await fetch("/validateUsers", requestOptions)
+    let response2 = await fetch("/validateUsers", requestOptions)
         .then(response => response.json())
         .then(response => console.log(response))
+
+    if (response.type == "sucess") {
+        console.log(response);
+    }
+
 }
 
 //window.location.replace("http://localhost:8800/system");
