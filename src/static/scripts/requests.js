@@ -47,3 +47,12 @@ async function validateUsers(email, password) {
         .then(response => console.log(response))
 }
 
+//window.location.replace("http://localhost:8800/system");
+
+/*
+// Simulate a mouse click:
+window.location.href = "http://www.w3schools.com";
+
+// Simulate an HTTP redirect:
+window.location.replace("http://www.w3schools.com"); 
+*/
