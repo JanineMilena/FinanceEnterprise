@@ -20,7 +20,6 @@ async function insertUsers(name, surname, email, password) {
 
     let response = await fetch("/users", requestOptions)
         .then(response => response.json())
-        .then(response => console.log(response))
 
     alert(response.message);
 }
@@ -42,22 +41,13 @@ async function validateUsers(email, password) {
         redirect: 'follow'
     };
 
-    let response2 = await fetch("/validateUsers", requestOptions)
+    let response = await fetch("/validateUsers", requestOptions)
         .then(response => response.json())
-        .then(response => console.log(response))
 
     if (response.type == "sucess") {
-        console.log(response);
+        window.location.replace("http://localhost:8800/system");
+    } else {
+        alert("Usuário não encontrado! Tente novamente.")
     }
 
 }
-
-//window.location.replace("http://localhost:8800/system");
-
-/*
-// Simulate a mouse click:
-window.location.href = "http://www.w3schools.com";
-
-// Simulate an HTTP redirect:
-window.location.replace("http://www.w3schools.com"); 
-*/

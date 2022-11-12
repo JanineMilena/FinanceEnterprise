@@ -28,6 +28,7 @@ async function insertUsersService(name, surname, email, password) {
             const [response] = await conn.query("INSERT INTO users (id, active, name, surname, email, password) VALUES (DEFAULT,1,?,?,?,?)",
                 [name, surname, email, hash]
             );
+
             return ({
                 "type": "sucess",
                 "message": "Registro inserido com sucesso!",
@@ -102,8 +103,8 @@ async function validateUsersService(email, password) {
             })
         }
         return ({
-            "type": "error",
-            "message": "Usuário não existe!"
+            type: "error",
+            message: "Usuário não existe!"
         });
     } catch (err) {
         return (err);
